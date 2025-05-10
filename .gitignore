@@ -1,0 +1,42 @@
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+media/
+staticfiles/
+
+# Environments #
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE & Editor #
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node & Frontend #
+node_modules/
+npm-debug.log*
+
+# Coverage reports #
+.coverage
+htmlcov/
+
+# Database backups #
+*.dump
+*.backup
+
+# macOS #
+.DS_Store
+
+# Windows #
+Thumbs.db
