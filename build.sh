@@ -16,18 +16,20 @@ echo "👑 Creating superuser if needed..."
 python manage.py shell <<EOF
 import os
 from django.contrib.auth import get_user_model
+username = os.environ.get('DJANGO_SUPERUSER_USERNAME', 'admin')
+email = os.environ.get('DJANGO_SUPERUSER_EMAIL', 'admin@example.com')
+password = os.environ.get('DJANGO_SUPERUSER_PASSWORD', 'defaultpassword')
 
 try:
-    User = get_user_model()
-    if not User.objects.filter(username=os.environ.get('DJANGO_SUPERUSER_USERNAME')).exists():
-        User.objects.create_superuser(
-            os.environ.get('DJANGO_SUPERUSER_USERNAME'),
-            os.environ.get('DJANGO_SUPERUSER_EMAIL'),
-            os.environ.get('DJANGO_SUPERUSER_PASSWORD')
-        )
-        print('✅ Superuser created successfully')
+    if not password or password == 'defaultpassword':
+      print("❌ No password set in DJANGO_SUPERUSER_PASSWORD")
     else:
-        print('ℹ️ Superuser already exists')
+      User = get_user_model()
+      if not User.objects.filter(username=username).exists():
+          User.objects.create_superuser(username, email, password)
+          print(f"✅ Superuser {username} created")
+      else:
+          print(f"ℹ️ Superuser {username} already exists")
 except Exception as e:
     print(f'❌ Superuser creation failed: {e}')
 EOF
