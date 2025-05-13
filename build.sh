@@ -16,22 +16,20 @@ echo "👑 Creating superuser if needed..."
 python manage.py shell <<EOF
 import os
 from django.contrib.auth import get_user_model
-username = os.environ.get('DJANGO_SUPERUSER_USERNAME', 'admin')
-email = os.environ.get('DJANGO_SUPERUSER_EMAIL', 'admin@example.com')
-password = os.environ.get('DJANGO_SUPERUSER_PASSWORD', 'defaultpassword')
+username = "admin"  # Hardcoded for testing
+email = "admin@example.com"
+password = "admin1234"  # Simple but valid password
 
-try:
-    if not password or password == 'defaultpassword':
-      print("❌ No password set in DJANGO_SUPERUSER_PASSWORD")
-    else:
-      User = get_user_model()
-      if not User.objects.filter(username=username).exists():
-          User.objects.create_superuser(username, email, password)
-          print(f"✅ Superuser {username} created")
-      else:
-          print(f"ℹ️ Superuser {username} already exists")
-except Exception as e:
-    print(f'❌ Superuser creation failed: {e}')
+User = get_user_model()
+if User.objects.filter(username=username).exists():
+    # Reset password if user exists
+    user = User.objects.get(username=username)
+    user.set_password(password)
+    user.save()
+    print(f"✓ Password reset for {username}")
+else:
+    User.objects.create_superuser(username, email, password)
+    print(f"✓ Created superuser {username}")
 EOF
 
 # 4. Collect static files
