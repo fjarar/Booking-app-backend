@@ -191,3 +191,18 @@ CORS_EXPOSE_HEADERS = [
     'Content-Type',
     'Authorization'
 ]
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        },
+    }
+}
