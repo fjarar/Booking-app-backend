@@ -51,14 +51,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',    
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',    
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'Backend_booking.urls'
@@ -188,10 +188,18 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
     'https://*.render.com',
     'https://*.onrender.com',
-    'https://*.vercel.app',
+    'https://booking-app-front-34cs.vercel.app/',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 CORS_EXPOSE_HEADERS = [
     'Content-Type',
     'Authorization'
