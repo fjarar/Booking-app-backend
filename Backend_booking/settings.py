@@ -23,6 +23,10 @@ IS_RENDER = os.getenv('RENDER') == 'True'  # Render automatically sets this
 # Load environment variables from .env file
 load_dotenv(BASE_DIR / '.env')
 
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+SUPABASE_BUCKET_NAME = os.getenv('SUPABASE_BUCKET_NAME', 'room-images')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -33,6 +37,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOST', '').split(',')
+
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = 'Room_Booking.supabase_storage.SupabaseStorage'
 
 # Application definition
 
@@ -143,7 +150,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static') # for Local development
-]
+] if DEBUG else []
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 WHITENOISE_MANIFEST_STRICT = False  # Prevents missing file errors
@@ -176,16 +183,16 @@ REST_FRAMEWORK = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
+    'http://localhost',
+    'http://127.0.0.1',
     'https://*.render.com',
     'https://*.onrender.com',
     'https://*.vercel.app',
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
+    'http://localhost',
+    'http://127.0.0.1',
     'https://*.render.com',
     'https://*.onrender.com',
     'https://booking-app-front-34cs.vercel.app',
@@ -217,5 +224,5 @@ LOGGING = {
             'level': 'DEBUG',
             'handlers': ['console'],
         },
-    }
+    },
 }
